@@ -13,8 +13,8 @@ public class ScrapApartmentInfoUseCase {
     private static final String XPATH_TO_APARTMENT_BEDROOMS = "//div[@class=\"d-none d-lg-block card-block\"]/div/div/ul/li[2]//h2";
     private static final String XPATH_TO_APARTMENT_TOILETS = "//div[@class=\"d-none d-lg-block card-block\"]/div/div/ul/li[3]//h2";
     private static final String XPATH_TO_APARTMENT_STRATUM = "//div[@class=\"d-none d-lg-block card-block\"]/div/div/ul/li[4]//h2";
-    private static final String XPATH_TO_APARTMENT_PRICE = "//*[@id=\"__next\"]/div/div/div/div[2]/div[3]/div[2]/div/div[2]/div/h3";
-    private static final String XPATH_TO_APARTMENT_ADMINISTRATION_PRICE = "//*[@id=\"__next\"]/div/div/div/div[2]/div[4]/div[1]/div[8]/div/div[7]/p";
+    private static final String XPATH_TO_APARTMENT_PRICE = "//p[text()=\"Arriendo\"]/parent::*/h3[1]";
+    private static final String XPATH_TO_APARTMENT_ADMINISTRATION_PRICE = "//h3[contains(text(),\"administración\")]/parent::*/p";
     public static final String AREA = "Area";
     public static final String BEDROOMS = "Bedrooms";
     public static final String TOILETS = "Toilets";
@@ -26,13 +26,14 @@ public class ScrapApartmentInfoUseCase {
         String apartmentBedrooms = page.locator(XPATH_TO_APARTMENT_BEDROOMS).innerText(); //2\nHabitaciones
         String apartmentToilets = page.locator(XPATH_TO_APARTMENT_TOILETS).innerText();
         String apartmentStratum = page.locator(XPATH_TO_APARTMENT_STRATUM).innerText();
-        String apartmentPrice = page.locator(XPATH_TO_APARTMENT_PRICE).innerText(); // $1.700.000
-        String apartmentAdministrationPrice = page.locator(XPATH_TO_APARTMENT_ADMINISTRATION_PRICE).innerText(); // $400.000 o 1 o 0
+        String apartmentPrice = page.locator(XPATH_TO_APARTMENT_PRICE).first().innerText(); // $1.700.000
+        String apartmentAdministrationPrice = null;
+        if (page.locator(XPATH_TO_APARTMENT_ADMINISTRATION_PRICE).isVisible()){
+            apartmentAdministrationPrice = page.locator(XPATH_TO_APARTMENT_ADMINISTRATION_PRICE).innerText(); // $400.000 o 1 o 0
+        }
         Map<String, String> cleanedData = cleanApartmentInfo(apartmentSize, apartmentBedrooms, apartmentToilets, apartmentStratum,
                                                              apartmentPrice, apartmentAdministrationPrice);
 
-        //TODO: Cambiar el xpath de administración por texto -> ir al padre -> entrar al precio
-        //TODO: Añadir el xpath de parqueaderos por texto -> ir al padre -> entrar al precio
         page.close();
         return new ApartmentInfo();
     }
