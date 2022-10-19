@@ -26,7 +26,10 @@ public class WebScrapper {
             for (int i = 0; i < numberOfItems; i++) {
                 String apartmentPath = BASE_URL + locator.nth(i).getAttribute("href");
                 ApartmentInfo apartmentInfo = ScrapApartmentInfoUseCase.execute(browser.newPage(), apartmentPath);
-                System.out.println(i);
+                if (apartmentInfo == null)
+                    continue;
+                apartmentInfo.setCity(cityToScrapDto.getCity());
+                System.out.println(apartmentInfo);
             }
             page.close();
             browser.close();

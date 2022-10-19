@@ -16,8 +16,23 @@ public class ApartmentInfo {
     private String city;
     private int stratum;
     private int price;
+    private int administrationPrice;
     private float area;
     private int bedrooms;
     private int toilets;
 
+    @Override
+    public String toString() {
+        return "ApartmentInfo{" +
+                "sector='" + sector + '\'' +
+                ", url='" + url + '\'' +
+                ", city='" + city + '\'' +
+                ", stratum=" + stratum +
+                ", price=" + price +
+                ", administrationPrice=" + administrationPrice +
+                ", area=" + area +
+                ", bedrooms=" + bedrooms +
+                ", toilets=" + toilets +
+                '}';
+    }
 }
