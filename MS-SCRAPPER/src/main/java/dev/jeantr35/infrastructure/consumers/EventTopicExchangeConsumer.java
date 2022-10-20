@@ -20,6 +20,8 @@ public class EventTopicExchangeConsumer {
     private Channel channel;
     private Connection connection;
 
+    private CityToScrapDto cityToScrapDto;
+
     public EventTopicExchangeConsumer() {
     }
 
@@ -35,10 +37,11 @@ public class EventTopicExchangeConsumer {
             // eventos en España -> es.*.*
             channel.queueBind(queueName, EXCHANGE, ROUTING_KEY_CITY_TO_SCRAP);
             channel.basicConsume(queueName, true, (consumerTag, message) -> {
+                //TODO: Extract logic from consumer and send to a service, to not keep open the chanel in the consume
                 String messageBody = new String(message.getBody(), Charset.defaultCharset());
-                CityToScrapDto cityToScrapDto = Mapper.mapJsonToCityToScrap(messageBody);
-                WebScrapper.getInfoFrom(cityToScrapDto);
+                cityToScrapDto = Mapper.mapJsonToCityToScrap(messageBody);
                 System.out.println("Mensaje: " + messageBody);
+                WebScrapper.getInfoFrom(cityToScrapDto);
             }, (consumerTag) -> {
                 System.out.println("Consumidor: " + consumerTag + " cancelado");
             });

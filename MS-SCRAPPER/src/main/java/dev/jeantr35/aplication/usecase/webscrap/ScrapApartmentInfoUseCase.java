@@ -3,6 +3,7 @@ package dev.jeantr35.aplication.usecase.webscrap;
 import com.microsoft.playwright.Page;
 import dev.jeantr35.domain.models.ApartmentInfo;
 
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,8 @@ public class ScrapApartmentInfoUseCase {
     public static ApartmentInfo execute(Page page, String apartmentUrl){
         try {
             page.navigate(apartmentUrl);
+            Thread.sleep(500);
+            page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("test.png")));
             String apartmentSize = page.locator(XPATH_TO_APARTMENT_SIZE).innerText(); // Área construida\n 79.4 m²
             String apartmentBedrooms = page.locator(XPATH_TO_APARTMENT_BEDROOMS).innerText(); //2\nHabitaciones
             String apartmentToilets = page.locator(XPATH_TO_APARTMENT_TOILETS).innerText();
