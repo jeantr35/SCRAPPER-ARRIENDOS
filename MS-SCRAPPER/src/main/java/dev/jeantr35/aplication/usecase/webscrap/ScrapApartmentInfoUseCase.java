@@ -30,7 +30,6 @@ public class ScrapApartmentInfoUseCase {
         try {
             page.navigate(apartmentUrl);
             Thread.sleep(500);
-            page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("test.png")));
             String apartmentSize = page.locator(XPATH_TO_APARTMENT_SIZE).innerText(); // Área construida\n 79.4 m²
             String apartmentBedrooms = page.locator(XPATH_TO_APARTMENT_BEDROOMS).innerText(); //2\nHabitaciones
             String apartmentToilets = page.locator(XPATH_TO_APARTMENT_TOILETS).innerText();

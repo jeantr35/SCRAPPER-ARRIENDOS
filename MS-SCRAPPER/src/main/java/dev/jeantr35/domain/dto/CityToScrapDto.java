@@ -13,5 +13,7 @@ public class CityToScrapDto {
     private String city;
     private String emailToNotify;
     private WebSitesEnum website;
+    private int minPrice;
+    private int maxPrice;
 
 }
