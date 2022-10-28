@@ -7,11 +7,16 @@ import com.rabbitmq.client.ConnectionFactory;
 import dev.jeantr35.aplication.usecase.WebScrapper;
 import dev.jeantr35.domain.dto.CityToScrapDto;
 import dev.jeantr35.infrastructure.utils.Mapper;
+import io.quarkus.runtime.Startup;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeoutException;
 
+@Startup
+@ApplicationScoped
 public class EventTopicExchangeConsumer {
 
     public static final String EXCHANGE = "Eventos";
@@ -22,10 +27,7 @@ public class EventTopicExchangeConsumer {
 
     private CityToScrapDto cityToScrapDto;
 
-    public EventTopicExchangeConsumer() {
-    }
-
-    public void setupCityToScrap() throws IOException, TimeoutException {
+    EventTopicExchangeConsumer(WebScrapper webScrapper) throws IOException, TimeoutException {
             connection = connectionFactory.newConnection();
             channel = connection.createChannel();
             channel.exchangeDeclare(EXCHANGE, BuiltinExchangeType.TOPIC);
@@ -41,7 +43,7 @@ public class EventTopicExchangeConsumer {
                 String messageBody = new String(message.getBody(), Charset.defaultCharset());
                 cityToScrapDto = Mapper.mapJsonToCityToScrap(messageBody);
                 System.out.println("Mensaje: " + messageBody);
-                WebScrapper.getInfoFrom(cityToScrapDto);
+                webScrapper.getInfoFrom(cityToScrapDto);
             }, (consumerTag) -> {
                 System.out.println("Consumidor: " + consumerTag + " cancelado");
             });

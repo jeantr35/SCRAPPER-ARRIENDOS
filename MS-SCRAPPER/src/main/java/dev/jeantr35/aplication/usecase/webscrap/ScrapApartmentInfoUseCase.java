@@ -3,7 +3,6 @@ package dev.jeantr35.aplication.usecase.webscrap;
 import com.microsoft.playwright.Page;
 import dev.jeantr35.domain.models.ApartmentInfo;
 
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
