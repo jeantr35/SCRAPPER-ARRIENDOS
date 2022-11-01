@@ -6,6 +6,7 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import dev.jeantr35.aplication.usecase.webscrap.ScrapApartmentInfoUseCase;
 import dev.jeantr35.domain.dto.CityToScrapDto;
+import dev.jeantr35.domain.enums.ScrappingStatus;
 import dev.jeantr35.domain.models.ApartmentInfo;
 import dev.jeantr35.domain.models.CityToScrapCommand;
 import dev.jeantr35.infrastructure.repositories.CityToSrapCommandRepository;
@@ -42,7 +43,11 @@ public class WebScrapper {
             scrapEachPage(cityToScrapDto, browser, page, cityToScrapCommand);
             page.close();
             browser.close();
+            cityToScrapCommand.setStatus(ScrappingStatus.COMPLETED);
+            cityToSrapCommandRepository.persistOrUpdate(cityToScrapCommand);
         } catch (InterruptedException e) {
+            cityToSrapCommandRepository.persistOrUpdate(cityToScrapCommand);
+            cityToScrapCommand.setStatus(ScrappingStatus.FAILED);
             throw new RuntimeException(e);
         }
     }
