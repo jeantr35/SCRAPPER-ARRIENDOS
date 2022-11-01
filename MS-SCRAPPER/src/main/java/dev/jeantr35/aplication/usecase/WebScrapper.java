@@ -4,15 +4,22 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import com.rabbitmq.client.Channel;
 import dev.jeantr35.aplication.usecase.webscrap.ScrapApartmentInfoUseCase;
 import dev.jeantr35.domain.dto.CityToScrapDto;
 import dev.jeantr35.domain.enums.ScrappingStatus;
 import dev.jeantr35.domain.models.ApartmentInfo;
 import dev.jeantr35.domain.models.CityToScrapCommand;
+import dev.jeantr35.infrastructure.producers.EventTopicExchangeProductorFactory;
 import dev.jeantr35.infrastructure.repositories.CityToSrapCommandRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.io.IOException;
+import java.util.Date;
+import java.util.concurrent.TimeoutException;
+
+import static dev.jeantr35.infrastructure.producers.EventTopicExchangeProductorFactory.EXCHANGE;
 
 @ApplicationScoped
 public class WebScrapper {
@@ -20,6 +27,9 @@ public class WebScrapper {
 
     @Inject
     CityToSrapCommandRepository cityToSrapCommandRepository;
+
+    @Inject
+    public EventTopicExchangeProductorFactory eventTopicExchangeProductorFactory;
 
     private static final String BASE_URL = "https://www.metrocuadrado.com";
     private static final String SEARCH_PATH = "/apartamento/arriendo/";
@@ -43,9 +53,11 @@ public class WebScrapper {
             scrapEachPage(cityToScrapDto, browser, page, cityToScrapCommand);
             page.close();
             browser.close();
-            cityToScrapCommand.setStatus(ScrappingStatus.COMPLETED);
+            cityToScrapCommand.setStatus(ScrappingStatus.SCRAPPING_COMPLETED);
+            cityToScrapCommand.setDate(new Date());
             cityToSrapCommandRepository.persistOrUpdate(cityToScrapCommand);
-        } catch (InterruptedException e) {
+            notifyScrapCompleted(cityToScrapCommand.getId().toHexString());
+        } catch (InterruptedException | IOException | TimeoutException e) {
             cityToSrapCommandRepository.persistOrUpdate(cityToScrapCommand);
             cityToScrapCommand.setStatus(ScrappingStatus.FAILED);
             throw new RuntimeException(e);
@@ -75,6 +87,12 @@ public class WebScrapper {
             apartmentInfo.setCity(cityToScrapDto.getCity());
             cityToScrapCommand.addApartmentInfo(apartmentInfo);
         }
+    }
+
+    private void notifyScrapCompleted(String id) throws IOException, TimeoutException {
+        String DATA_SCRAPPED_ROUTE = "DATA-SCRAPPED";
+        Channel channel = eventTopicExchangeProductorFactory.execute();
+        channel.basicPublish(EXCHANGE, DATA_SCRAPPED_ROUTE, null, id.getBytes());
     }
 
 }

@@ -12,6 +12,7 @@ import org.bson.types.ObjectId;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -24,14 +25,13 @@ public class CityToScrapCommand extends CityToScrapDto {
     private ObjectId id;
     private List<ApartmentInfo> apartmentInfoList;
     private ScrappingStatus status;
-    private SimpleDateFormat date;
+    private Date date;
 
 
     public CityToScrapCommand(CityToScrapDto cityToScrapDto) {
         super(cityToScrapDto.getCity(), cityToScrapDto.getEmailToNotify(), cityToScrapDto.getWebsite(), cityToScrapDto.getMinPrice(), cityToScrapDto.getMaxPrice());
         this.apartmentInfoList = new ArrayList<>();
         this.status = ScrappingStatus.SCRAPPING;
-        this.date = new SimpleDateFormat("yyyy-MM-dd");
     }
 
     public void addApartmentInfo(ApartmentInfo apartmentInfo){

@@ -1,5 +1,5 @@
 package dev.jeantr35.domain.enums;
 
 public enum ScrappingStatus {
-    SCRAPPING, COMPLETED, FAILED
+    SCRAPPING, SCRAPPING_COMPLETED, COMPLETED, FAILED
 }
