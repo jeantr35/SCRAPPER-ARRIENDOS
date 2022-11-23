@@ -1,10 +1,7 @@
 package dev.jeantr35.infrastructure.controller;
 
-import com.rabbitmq.client.Channel;
 import dev.jeantr35.application.service.ApartmentsInfoService;
 import dev.jeantr35.domain.dto.CityToScrapDto;
-import dev.jeantr35.infrastructure.utils.EventTopicExchangeProductorFactory;
-
 import javax.inject.Inject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
