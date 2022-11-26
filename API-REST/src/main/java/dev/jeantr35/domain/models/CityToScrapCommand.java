@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.bson.types.ObjectId;
 
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
@@ -24,16 +24,5 @@ public class CityToScrapCommand extends CityToScrapDto {
     private List<ApartmentInfo> apartmentInfoList;
     private ScrappingStatus status;
     private Date date;
-
-
-    public CityToScrapCommand(CityToScrapDto cityToScrapDto) {
-        super(cityToScrapDto.getCity(), cityToScrapDto.getEmailToNotify(), cityToScrapDto.getWebsite(), cityToScrapDto.getMinPrice(), cityToScrapDto.getMaxPrice());
-        this.apartmentInfoList = new ArrayList<>();
-        this.status = ScrappingStatus.SCRAPPING;
-    }
-
-    public void addApartmentInfo(ApartmentInfo apartmentInfo){
-        getApartmentInfoList().add(apartmentInfo);
-    }
 
 }
