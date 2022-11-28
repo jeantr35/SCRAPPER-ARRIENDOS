@@ -15,8 +15,9 @@ public class SendDataService {
     public CreateHtmlUtil createHtmlUtil;
 
     public Response sendDataTo(SendDataDTO sendDataDTO) throws DocumentException, IOException {
-        CreatePDFUtil.generatePDFFromHTML("src/main/resources/templates/CreateHtmlUtil/hello.html");
-        return Response.ok(createHtmlUtil.getHtmlRendered(sendDataDTO)).build();
+        String html = createHtmlUtil.getHtmlRendered(sendDataDTO);
+        CreatePDFUtil.generatePDFFromHTML(html);
+        return Response.ok(html).build();
     }
 
 }

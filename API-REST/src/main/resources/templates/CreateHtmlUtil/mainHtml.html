@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{subject}</title>
+</head>
+<body>
+<h1>Acá están tus mejores opciones {to}</h1>
+{#for apartmentInfo in apartmentInfoList}
+<h2>Apartamento en: {apartmentInfo.sector}</h2>
+<p>
+    Price: {apartmentInfo.price}
+    TotalPrice: {apartmentInfo.price + apartmentInfo.administrationPrice}
+</p>
+{/for}
+</body>
+</html>
