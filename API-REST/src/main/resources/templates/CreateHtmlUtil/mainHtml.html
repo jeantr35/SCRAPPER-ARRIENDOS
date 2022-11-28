@@ -9,8 +9,19 @@
 {#for apartmentInfo in apartmentInfoList}
 <h2>Apartamento en: {apartmentInfo.sector}</h2>
 <p>
-    Price: {apartmentInfo.price}
-    TotalPrice: {apartmentInfo.price + apartmentInfo.administrationPrice}
+    Habitaciones: {apartmentInfo.bedrooms}
+    <br/>
+    Valor arriendo: {apartmentInfo.price}
+    <br/>
+    Valor total (Administración incluida): {apartmentInfo.price + apartmentInfo.administrationPrice}
+    <br/>
+    Baños: {apartmentInfo.toilets}
+    <br/>
+    Area total: {apartmentInfo.area} metros cuadrados
+    <br/>
+    Estrato: {apartmentInfo.stratum}
+    <br/>
+    <a href="{apartmentInfo.url}"> Link al apartamento</a>
 </p>
 {/for}
 </body>
