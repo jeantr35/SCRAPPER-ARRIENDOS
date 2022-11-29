@@ -4,6 +4,7 @@ import dev.jeantr35.domain.dto.BestChoicesDTO;
 import dev.jeantr35.domain.models.ApartmentInfo;
 import dev.jeantr35.domain.models.CityToScrapCommand;
 import dev.jeantr35.infrastructure.repositories.CityToSrapCommandRepository;
+import dev.jeantr35.infrastructure.repositories.BestChoicesRepository;
 import org.bson.types.ObjectId;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,9 +16,11 @@ import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class SortService {
-
     @Inject
     public CityToSrapCommandRepository cityToSrapCommandRepository;
+
+    @Inject
+    public BestChoicesRepository bestChoicesRepository;
 
     private final ArrayList<Comparator<ApartmentInfo>> comparators = new ArrayList<>();
 
@@ -50,7 +53,8 @@ public class SortService {
             bestChoicesDTO.setApartmentInfoList(cityToScrapCommand.getApartmentInfoList().stream().sorted(apartmentInfoComparator[0]).
                     limit(5).collect(Collectors.toList()));
                 });
-        return Response.ok(bestChoicesDTO).build();
+        bestChoicesRepository.persist(bestChoicesDTO);
+        return Response.ok(bestChoicesDTO.getId()).build();
     }
 
     private void createComparator() {

@@ -19,7 +19,7 @@ public class ScrapperController {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response scrapCity(CityToScrapDto cityToScrapDto) throws IOException, TimeoutException {
+    public Response scrapCity(CityToScrapDto cityToScrapDto) throws IOException, TimeoutException { //TODO: Add body input validations
         return apartmentsInfoService.sendNewCityToScrap(cityToScrapDto);
     }
 }

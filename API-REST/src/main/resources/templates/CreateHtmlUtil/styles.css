@@ -1,0 +1,70 @@
+/* 
+  #cad2c5
+  #84a98c
+  #52796f
+  #354f52
+  #2f3e46
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,600;0,700;1,700&display=swap');
+
+html body{
+  background-color: #cad2c5;
+  font-family: 'Roboto Mono', monospace;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+}
+
+header{
+  background-color: #2f3e46;
+  color: #cad2c5;
+  height: 8vh;
+  line-height: 8vh;
+}
+
+h1{
+  text-align: center;
+  font-weight: 600;
+  font-style: italic;
+  margin: 0;
+}
+
+h2{
+  color:#354f52;
+  margin: 2vh 0;
+}
+
+footer{
+  background-color: #2f3e46;
+  color: #cad2c5;
+  text-align: center;
+  height: 8vh;
+  line-height: 8vh;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+footer span{
+  font-size: 1.2em;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+}
+
+footer span a {
+  color: #84a98c;
+}
+
+.apartments-container{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.apartments-container section{
+  padding-left: 5vw;
+  border: 2px #354f52 solid;
+  border-top: 0px;
+}

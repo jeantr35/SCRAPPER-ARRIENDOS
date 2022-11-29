@@ -2,27 +2,38 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="./styles.css"/>
     <title>{subject}</title>
 </head>
 <body>
-<h1>Acá están tus mejores opciones {to}</h1>
-{#for apartmentInfo in apartmentInfoList}
-<h2>Apartamento en: {apartmentInfo.sector}</h2>
-<p>
-    Habitaciones: {apartmentInfo.bedrooms}
-    <br/>
-    Valor arriendo: {apartmentInfo.price}
-    <br/>
-    Valor total (Administración incluida): {apartmentInfo.price + apartmentInfo.administrationPrice}
-    <br/>
-    Baños: {apartmentInfo.toilets}
-    <br/>
-    Area total: {apartmentInfo.area} metros cuadrados
-    <br/>
-    Estrato: {apartmentInfo.stratum}
-    <br/>
-    <a href="{apartmentInfo.url}"> Link al apartamento</a>
-</p>
-{/for}
+<header><h1>Acá están tus mejores opciones: {to}</h1></header>
+<article class="apartments-container">
+    {#for apartmentInfo in apartmentInfoList}
+    <h2>Apartamento en: {apartmentInfo.sector}</h2>
+    <section>
+        <p>
+            Habitaciones: {apartmentInfo.bedrooms}
+            <br/>
+            Valor arriendo: {apartmentInfo.price}
+            <br/>
+            Valor total (Administración incluida): {apartmentInfo.price + apartmentInfo.administrationPrice}
+            <br/>
+            Baños: {apartmentInfo.toilets}
+            <br/>
+            Area total: {apartmentInfo.area} metros cuadrados
+            <br/>
+            Estrato: {apartmentInfo.stratum}
+            <br/>
+            <a href="{apartmentInfo.url}"> Link al apartamento</a>
+        </p>
+    </section>
+    {/for}
+</article>
+<footer>
+    <span>Informe generado desde <a href="github.com/jeantr35">something.com.co</a> creado por <a
+            href="github.com/jeantr35">jeantr35</a></span>
+</footer>
 </body>
 </html>
